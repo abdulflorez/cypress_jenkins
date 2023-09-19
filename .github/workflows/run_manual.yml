@@ -1,62 +1,40 @@
-name: 'ON-DEMAND: Automation UI'
+name: "ON-DEMAND: Automation UI"
 on:
   workflow_dispatch:
     inputs:
-      branches:
+      branch:
         description: "branches"
         required: true
-        default: main
+        default: master
         type: choice
         options:
-        - main
-        - develop
+          - master
+          - develop
       command:
         description: "script"
         required: true
         default: "cy:run"
         type: choice
         options:
-        - "cy:run"
-        - "cy:run:chrome"
-  
-jobs:
-  test:
-    name: Automation Suite
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "18.x"
-          registry-url: https://nexus.greatminds.dev/repository/npm/
-
-      - name: NPM Install
-        run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Run UI Suite
-        run: npm run ${{ github.event.inputs.command }}
-
-
-
+          - "cy:run"
+          - "cy:run:chrome"
+  branches: ${{ github.event.inputs.branch }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 18 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Run Cypress tests
-      run: npm run ${{ github.event.inputs.command }}
+      - name: Run Cypress tests
+        run: npm run ${{ github.event.inputs.command }}
