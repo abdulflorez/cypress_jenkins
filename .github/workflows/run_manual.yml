@@ -1,4 +1,5 @@
-name: "ON-DEMAND: Automation UI"
+name: Manual execution
+
 on:
   workflow_dispatch:
     inputs:
