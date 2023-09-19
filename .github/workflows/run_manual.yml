@@ -3,14 +3,6 @@ name: Manual execution
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: "branches"
-        required: true
-        default: master
-        type: choice
-        options:
-          - master
-          - develop
       command:
         description: "script"
         required: true
@@ -19,7 +11,6 @@ on:
         options:
           - "cy:run"
           - "cy:run:chrome"
-  branches: ${{ github.event.inputs.branch }}
 
 jobs:
   build:
